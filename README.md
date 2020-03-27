@@ -1,2 +1,0 @@
-# ConfigSlurper
-ConfigSlurper
