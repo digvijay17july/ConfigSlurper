@@ -1,2 +1,2 @@
-# digvijay17july
+# ConfigSlurper
 ConfigSlurper
