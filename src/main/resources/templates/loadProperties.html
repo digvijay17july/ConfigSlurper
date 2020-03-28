@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row">
+        <h2>Configurations of Crawler</h2>
+        <p>The form below contains values of configuration , edit and save for changes</p>
+        <form class="rounded">
+            <div class="form-group" th:each="property : ${properties}">
+                <label th:for="${property.key}" th:text="${property.key}">Name:</label>
+                <input type="text" class="form-control" th:id="${property.key}" th:value="${property.value}">
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <form id="propertiesDiv" class="rounded" method="post" th:action="@{/api/v1/view/addProperties}">
+                <button id="saveProperty" name="Save Property"
+                        class="btn btn-secondary">Save Property
+                </button>
+
+            </form>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <button onclick="addInputLine()" id="addProperty" name="Add Property"
+                            class="btn btn-secondary">Add Property
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+<script>
+function addInputLine() {
+
+for(var i=0;i<2;i++)
+{
+ var form =document.getElementById("propertiesDiv");
+ var labels=["Property Name","Property Value"]
+ var div = document.createElement("div");
+    div.className='form-group';
+   var input = document.createElement("input");
+   var label = document.createElement("label");
+    var button = document.createElement("button");
+    button.innerHTML = 'remove';
+   label.value=labels[i];
+   label.for='input-' + i;
+    input.id = 'input-' + i;
+    input.type = 'text';
+    if(i===0)
+    input.name = 'key';
+    if(i===1)
+    input.name = 'value';
+    input.className='form-control';
+    input.placeholder = labels[1];
+
+    div.appendChild(label);
+    div.appendChild(input);
+    if(i===0)
+    {
+    div.appendChild(button);
+     }
+     form.insertBefore(div, form.firstChild);
+}
+}
+
+function removeDiv(){
+    this.parentNode.remove();
+};
+
+
+</script>
+</body>
+</html>
