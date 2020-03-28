@@ -1,6 +1,7 @@
 package com.slurper.controller;
 
 import com.slurper.service.ConfigSlurperService;
+import com.slurper.utils.SlurperProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class SlurperViewController {
     @Autowired
     ConfigSlurperService configSlurperServiceImpl;
 
+    @Autowired
+    SlurperProperties slurperProperties;
+
     @RequestMapping("/configurations")
     @ResponseBody
     public ModelAndView viewAndEditProperties() {
@@ -32,7 +36,7 @@ public class SlurperViewController {
             modelAndView.addObject("exception", e);
             modelAndView.setViewName("exception");
         }
-
+        modelAndView.addObject("title", slurperProperties.getTitle() );
         return modelAndView;
     }
 
@@ -42,11 +46,13 @@ public class SlurperViewController {
         ModelAndView modelAndView = new ModelAndView();
         try {
             configSlurperServiceImpl.writeConfigurations(properties);
-            modelAndView.setViewName("redirect:/api/v1/view/configurations");
+            modelAndView.addObject("message", "Added Configuration !");
+            modelAndView.setViewName("success");
         } catch (Exception e) {
             modelAndView.addObject("exception", e);
             modelAndView.setViewName("exception");
         }
+        modelAndView.addObject("title", slurperProperties.getTitle() );
         return modelAndView;
     }
 }

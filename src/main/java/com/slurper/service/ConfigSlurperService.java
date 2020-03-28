@@ -1,10 +1,8 @@
 package com.slurper.service;
 
-import groovy.util.ConfigObject;
+import groovy.lang.Closure;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 public interface ConfigSlurperService {
 
@@ -17,4 +15,10 @@ public interface ConfigSlurperService {
      Method to write configurations
       */
     void writeConfigurations(Map newPropertiesMap) throws Exception;
+
+    /*
+  Method to get closure
+   */
+    Closure getClosure(String closureName) throws Exception;
+    
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title th:text="${title}"></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -13,73 +13,85 @@
 
 <div class="container">
     <div class="row">
-        <h2>Configurations of Crawler</h2>
-        <p>The form below contains values of configuration , edit and save for changes</p>
-        <form class="rounded">
-            <div class="form-group" th:each="property : ${properties}">
-                <label th:for="${property.key}" th:text="${property.key}">Name:</label>
-                <input type="text" class="form-control" th:id="${property.key}" th:value="${property.value}">
-            </div>
-        </form>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col">
-            <form id="propertiesDiv" class="rounded" method="post" th:action="@{/api/v1/view/addProperties}">
-                <button id="saveProperty" name="Save Property"
-                        class="btn btn-secondary">Save Property
+        <div class="page-header">
+            <h2><p th:text="${title}"></p></h2>
+        </div>
+        <div class="alert alert-info">
+            <strong>Info!</strong>
+            <p>Example to add value as String : for String Add in Single Quotes like - 'value'</p>
+        </div>
+        <div class="alert alert-info">
+            <strong>Info!</strong>
+            <p>Example to add value as Closure - { ()-> return 1+1 }</p>
+        </div>
+        <div class="alert alert-success">
+            <strong>The form below contains configuration , edit and save for changes</strong>
+        </div>
+        <div class="well well-lg">
+            <form id="propertiesDiv" method="post" th:action="@{/api/v1/view/addProperties}">
+                <div class="form-group" th:each="property : ${properties}">
+                    <label th:for="${property.key}" th:text="${property.key}">Name:</label>
+                    <input type="text" class="form-control" th:id="${property.key}" name="value" th:value="${property.value}">
+                    <input type="hidden" class="form-control" th:id="${property.key}" name="key" th:value="${property.key}">
+                </div>
+                <div id="addConfigurations" class="form-group" >
+                </div>
+                <button id="saveConfigurations" name="Save Configurations"
+                        class="btn btn-primary">Save Configurations
                 </button>
 
+
+                <button onclick="addInputLine()" id="addProperty" name="Add Configuration"
+                        class="btn btn-primary" type="button">Add Configuration
+                </button>
+
+
             </form>
-            <br>
-            <div class="row">
-                <div class="col">
-                    <button onclick="addInputLine()" id="addProperty" name="Add Property"
-                            class="btn btn-secondary">Add Property
-                    </button>
-                </div>
-            </div>
         </div>
+        <br>
+
     </div>
-    <br>
+</div>
+<br>
 </div>
 <script>
+var countDiv=0;
 function addInputLine() {
-
-for(var i=0;i<2;i++)
-{
- var form =document.getElementById("propertiesDiv");
+ var div =document.getElementById("addConfigurations");
  var labels=["Property Name","Property Value"]
- var div = document.createElement("div");
-    div.className='form-group';
-   var input = document.createElement("input");
-   var label = document.createElement("label");
-    var button = document.createElement("button");
-    button.innerHTML = 'remove';
-   label.value=labels[i];
-   label.for='input-' + i;
-    input.id = 'input-' + i;
-    input.type = 'text';
-    if(i===0)
-    input.name = 'key';
-    if(i===1)
-    input.name = 'value';
-    input.className='form-control';
-    input.placeholder = labels[1];
+var divChild=  document.createElement("div");
+ div.className='form-group';
+ var button = document.createElement("button");
+ button.innerHTML = 'remove';
+ button.className='btn btn-primary';
+ button.type='button';
+ divChild.appendChild(createDivConfiguration(labels[0],"div"+(countDiv++),"div"+(countDiv++),labels[0],"key"));
+ divChild.appendChild(createDivConfiguration(labels[1],"div"+(countDiv++),"div"+(countDiv++),labels[1],"value"));
+ divChild.appendChild(button);
+ div.appendChild(divChild);
+ button.addEventListener("click", function(){divChild.parentNode.removeChild(divChild)});
 
-    div.appendChild(label);
-    div.appendChild(input);
-    if(i===0)
-    {
-    div.appendChild(button);
-     }
-     form.insertBefore(div, form.firstChild);
-}
+
 }
 
-function removeDiv(){
-    this.parentNode.remove();
-};
+function createDivConfiguration(labelText,labelFor,inputId,inputPlaceholder,inputTypeName){
+var div = document.createElement("div");
+var input = document.createElement("input");
+var label = document.createElement("label");
+
+input.type = 'text';
+input.name = inputTypeName;
+input.className='form-control';
+input.placeholder=inputPlaceholder;
+label.innerHTML=inputPlaceholder
+div.className='form-group';
+div.appendChild(label);
+div.appendChild(input);
+
+return div;
+}
+
+
 
 
 </script>
