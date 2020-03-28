@@ -21,19 +21,32 @@ public class SlurperViewController {
 
     @RequestMapping("/configurations")
     @ResponseBody
-    public ModelAndView viewAndEditProperties() throws Exception {
+    public ModelAndView viewAndEditProperties() {
         ModelAndView modelAndView = new ModelAndView();
         Map properties = null;
-        properties = configSlurperServiceImpl.getConfigurations(true);
-        modelAndView.addObject("properties", properties);
-        modelAndView.setViewName("loadProperties");
+        try {
+            properties = configSlurperServiceImpl.getConfigurations(true);
+            modelAndView.addObject("properties", properties);
+            modelAndView.setViewName("loadProperties");
+        } catch (Exception e) {
+            modelAndView.addObject("exception", e);
+            modelAndView.setViewName("exception");
+        }
+
         return modelAndView;
     }
 
     @RequestMapping(value = "/addProperties", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     @ResponseBody
-    public ModelAndView addProperties(@RequestBody MultiValueMap<String, String> properties) throws Exception {
-        configSlurperServiceImpl.writeConfigurations(properties);
-        return new ModelAndView("redirect:/api/v1/view/configurations");
+    public ModelAndView addProperties(@RequestBody MultiValueMap<String, String> properties) {
+        ModelAndView modelAndView = new ModelAndView();
+        try {
+            configSlurperServiceImpl.writeConfigurations(properties);
+            modelAndView.setViewName("redirect:/api/v1/view/configurations");
+        } catch (Exception e) {
+            modelAndView.addObject("exception", e);
+            modelAndView.setViewName("exception");
+        }
+        return modelAndView;
     }
 }
