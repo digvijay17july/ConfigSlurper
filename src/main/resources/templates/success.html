@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title  th:text="${title}"></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="page-header">
+            <h2><p  th:text="${title}"></p></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="alert alert-success">
+            <strong>Success!</strong> <label  th:text="${message}"></label>
+        </div>
+    </div>
+    <div class="row">
+        <form id="propertiesDiv" class="rounded" method="post" th:action="@{/api/v1/view/configurations}">
+            <button id="saveProperty" name="properties"
+                    class="btn btn-primary">Go To Configurations Page
+            </button>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

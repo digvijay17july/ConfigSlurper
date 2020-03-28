@@ -1,4 +1,4 @@
-package com.slurper.ConfigSlurper;
+package com.slurper;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
